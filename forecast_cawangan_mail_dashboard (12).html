@@ -1,0 +1,266 @@
+<!DOCTYPE html>
+<html lang="ms">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>SELANGOR MCO MONITORING</title>
+  <script src="https://cdn.sheetjs.com/xlsx-0.20.2/package/dist/xlsx.full.min.js"></script>
+  <style>
+    body { font-family: Arial, sans-serif; background:#f5f7fb; padding:20px; }
+    h2 { margin-bottom: 10px; }
+    .toolbar { display:flex; gap:10px; align-items:center; margin-bottom:12px; flex-wrap:wrap; }
+    table { border-collapse: collapse; width:100%; min-width:2200px; background:#fff; }
+    th, td { border:1px solid #ccc; padding:6px; text-align:center; }
+    th { background:#111827; color:white; }
+    input { width:88px; padding:4px; text-align:center; }
+    .highlight { background:#d1fae5; font-weight:bold; }
+    button { padding:10px 16px; border:none; background:#2563eb; color:white; border-radius:6px; cursor:pointer; }
+    .danger { background:#dc2626; }
+  </style>
+</head>
+<body>
+
+<h2>SELANGOR MCO MONITORING</h2>
+
+<div class="toolbar">
+  <label><b>Tarikh:</b></label>
+  <input type="date" id="tarikh">
+  <button onclick="downloadExcel()">Download XLSX</button>
+  <button onclick="resetTable()" class="danger">Reset</button>
+</div>
+
+<table id="table">
+<thead>
+<tr>
+<th>Cawangan</th>
+<th>BIT</th>
+<th>Average Kehadiran</th>
+<th>MCO Surat</th>
+<th>Inbound Surat</th>
+<th>Outbound Surat</th>
+<th>MCO Register</th>
+<th>Inbound Register</th>
+<th>Outbound Register</th>
+<th>MCO Poslaju</th>
+<th>Inbound Poslaju</th>
+<th>Outbound Poslaju</th>
+<th>MCO MelPlus</th>
+<th>Inbound Melplus</th>
+<th>Outbound Melplus</th>
+<th>MCO %</th>
+<th>Net Clear</th>
+<th>Anggaran Hari Siap</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>SG BULOH</td>
+<td><input class="body" value="43"></td>
+<td><input class="avg_kehadiran" value=""></td>
+<td><input class="surat_baki" value="210000"></td>
+<td><input class="surat_in" value="27192"></td>
+<td><input class="surat_out" value="30600"></td>
+<td><input class="reg_baki" value="0"></td>
+<td><input class="reg_in" value="0"></td>
+<td><input class="reg_out" value="0"></td>
+<td><input class="pl_baki" value="0"></td>
+<td><input class="pl_in" value="0"></td>
+<td><input class="pl_out" value="0"></td>
+<td><input class="mp_baki" value="0"></td>
+<td><input class="mp_in" value="0"></td>
+<td><input class="mp_out" value="0"></td>
+<td class="mco_pct"></td>
+<td class="net highlight"></td>
+<td class="hari highlight"></td>
+</tr>
+<tr>
+<td>KLANG SELATAN</td>
+<td><input class="body"></td>
+<td><input class="avg_kehadiran"></td>
+<td><input class="surat_baki"></td>
+<td><input class="surat_in"></td>
+<td><input class="surat_out"></td>
+<td><input class="reg_baki"></td>
+<td><input class="reg_in"></td>
+<td><input class="reg_out"></td>
+<td><input class="pl_baki"></td>
+<td><input class="pl_in"></td>
+<td><input class="pl_out"></td>
+<td><input class="mp_baki"></td>
+<td><input class="mp_in"></td>
+<td><input class="mp_out"></td>
+<td class="mco_pct"></td>
+<td class="net highlight"></td>
+<td class="hari highlight"></td>
+</tr>
+<tr>
+<td>TELOK PANGLIMA GARANG</td>
+<td><input class="body"></td>
+<td><input class="avg_kehadiran"></td>
+<td><input class="surat_baki"></td>
+<td><input class="surat_in"></td>
+<td><input class="surat_out"></td>
+<td><input class="reg_baki"></td>
+<td><input class="reg_in"></td>
+<td><input class="reg_out"></td>
+<td><input class="pl_baki"></td>
+<td><input class="pl_in"></td>
+<td><input class="pl_out"></td>
+<td><input class="mp_baki"></td>
+<td><input class="mp_in"></td>
+<td><input class="mp_out"></td>
+<td class="mco_pct"></td>
+<td class="net highlight"></td>
+<td class="hari highlight"></td>
+</tr>
+<tr>
+<td>PUCHONG A</td>
+<td><input class="body"></td>
+<td><input class="avg_kehadiran"></td>
+<td><input class="surat_baki"></td>
+<td><input class="surat_in"></td>
+<td><input class="surat_out"></td>
+<td><input class="reg_baki"></td>
+<td><input class="reg_in"></td>
+<td><input class="reg_out"></td>
+<td><input class="pl_baki"></td>
+<td><input class="pl_in"></td>
+<td><input class="pl_out"></td>
+<td><input class="mp_baki"></td>
+<td><input class="mp_in"></td>
+<td><input class="mp_out"></td>
+<td class="mco_pct"></td>
+<td class="net highlight"></td>
+<td class="hari highlight"></td>
+</tr>
+<tr>
+<td>PUCHONG B</td>
+<td><input class="body"></td>
+<td><input class="avg_kehadiran"></td>
+<td><input class="surat_baki"></td>
+<td><input class="surat_in"></td>
+<td><input class="surat_out"></td>
+<td><input class="reg_baki"></td>
+<td><input class="reg_in"></td>
+<td><input class="reg_out"></td>
+<td><input class="pl_baki"></td>
+<td><input class="pl_in"></td>
+<td><input class="pl_out"></td>
+<td><input class="mp_baki"></td>
+<td><input class="mp_in"></td>
+<td><input class="mp_out"></td>
+<td class="mco_pct"></td>
+<td class="net highlight"></td>
+<td class="hari highlight"></td>
+</tr>
+</tbody>
+</table>
+
+<script>
+function num(v) {
+  return Number(v || 0);
+}
+
+function kira() {
+  document.querySelectorAll('#table tbody tr').forEach(row => {
+    const surat_baki = num(row.querySelector('.surat_baki')?.value);
+    const surat_in = num(row.querySelector('.surat_in')?.value);
+    const surat_out = num(row.querySelector('.surat_out')?.value);
+    const reg_baki = num(row.querySelector('.reg_baki')?.value);
+    const reg_in = num(row.querySelector('.reg_in')?.value);
+    const reg_out = num(row.querySelector('.reg_out')?.value);
+    const pl_baki = num(row.querySelector('.pl_baki')?.value);
+    const pl_in = num(row.querySelector('.pl_in')?.value);
+    const pl_out = num(row.querySelector('.pl_out')?.value);
+    const mp_baki = num(row.querySelector('.mp_baki')?.value);
+    const mp_in = num(row.querySelector('.mp_in')?.value);
+    const mp_out = num(row.querySelector('.mp_out')?.value);
+
+    const total_baki = surat_baki + reg_baki + pl_baki + mp_baki;
+    const total_in = surat_in + reg_in + pl_in + mp_in;
+    const total_out = surat_out + reg_out + pl_out + mp_out;
+    const net = total_out - total_in;
+    const hari = net > 0 ? (total_baki / net).toFixed(1) : '∞';
+    const mco_pct = surat_in > 0 ? ((surat_baki / surat_in) * 100).toFixed(1) + '%' : '0%';
+
+    row.querySelector('.mco_pct').textContent = mco_pct;
+    row.querySelector('.net').textContent = net;
+    row.querySelector('.hari').textContent = hari;
+  });
+}
+
+function resetTable() {
+  document.querySelectorAll('#table input').forEach(input => {
+    input.value = '';
+  });
+  kira();
+}
+
+function getRowData(row) {
+  const getInput = cls => row.querySelector('.' + cls)?.value || '';
+  const getText = cls => row.querySelector('.' + cls)?.textContent || '';
+
+  return [
+    row.cells[0].textContent.trim(),
+    getInput('body'),
+    getInput('avg_kehadiran'),
+    getInput('surat_baki'),
+    getInput('surat_in'),
+    getInput('surat_out'),
+    getInput('reg_baki'),
+    getInput('reg_in'),
+    getInput('reg_out'),
+    getInput('pl_baki'),
+    getInput('pl_in'),
+    getInput('pl_out'),
+    getInput('mp_baki'),
+    getInput('mp_in'),
+    getInput('mp_out'),
+    getText('mco_pct'),
+    getText('net'),
+    getText('hari')
+  ];
+}
+
+function downloadExcel() {
+  kira();
+
+  const tarikh = document.getElementById('tarikh').value || '';
+  const headers = [
+    'Cawangan','BIT','Average Kehadiran','MCO Surat','Inbound Surat','Outbound Surat',
+    'MCO Register','Inbound Register','Outbound Register',
+    'MCO Poslaju','Inbound Poslaju','Outbound Poslaju',
+    'MCO MelPlus','Inbound Melplus','Outbound Melplus','MCO %','Net Clear','Anggaran Hari Siap'
+  ];
+
+  const data = [
+    ['SELANGOR MCO MONITORING'],
+    ['Tarikh', tarikh],
+    [],
+    headers
+  ];
+
+  document.querySelectorAll('#table tbody tr').forEach(row => {
+    data.push(getRowData(row));
+  });
+
+  const ws = XLSX.utils.aoa_to_sheet(data);
+  const wb = XLSX.utils.book_new();
+  XLSX.utils.book_append_sheet(wb, ws, 'Monitoring');
+
+  ws['!cols'] = headers.map((h, i) => ({
+    wch: i === 0 ? 24 : i === 15 ? 12 : i >= 16 ? 18 : 14
+  }));
+
+  XLSX.writeFile(wb, `SELANGOR_MCO_${tarikh || 'NO_DATE'}.xlsx`);
+}
+
+document.querySelectorAll('#table input').forEach(el => {
+  el.addEventListener('input', kira);
+});
+
+kira();
+</script>
+
+</body>
+</html>
